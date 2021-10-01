@@ -1,0 +1,19 @@
+#!/bin/bash
+
+file=$1
+file2=$2
+
+lines=$(wc $file -l | cut -d ' ' -f 1)
+
+touch file2
+
+for (( c=0; c<=$lines; c++ )); do
+	
+	line=$(cat $file | head -n $c | tail -n 1)
+	b64=$(echo $line | base64)
+	#echo "$c -> $line -> $b64"
+
+	echo $b64 >> $file2
+done
+
+#echo $lines
