@@ -1,19 +1,29 @@
 #!/bin/bash
 
-file=$1
-file2=$2
+if [ "$#" -ne 2 ]; then
+    if [ "$1" != "-h" ]; then
+    	echo "Insufficient arguments, expected 2. Use -h to see help."
+    	exit 2
+	else
+		echo "Usage: tobase64 <input_file> <output_file>"
+		exit 2
+	fi
+else
+	file=$1
 
-lines=$(wc $file -l | cut -d ' ' -f 1)
+	file2=$2
 
-touch file2
+	lines=$(wc $file -l | cut -d ' ' -f 1)
 
-for (( c=0; c<=$lines; c++ )); do
-	
-	line=$(cat $file | head -n $c | tail -n 1)
-	b64=$(echo $line | base64)
-	#echo "$c -> $line -> $b64"
+	touch file2
 
-	echo $b64 >> $file2
-done
+	for (( c=0; c<=$lines; c++ )); do
+		
+		line=$(cat $file | head -n $c | tail -n 1)
+		b64=$(echo $line | base64)
 
-#echo $lines
+		echo $b64 >> $file2
+	done
+fi
+
+exit 0
